@@ -16,6 +16,7 @@
 
 #include <exception>
 #include <list>
+#include <exception>
 
 namespace embree
 {
