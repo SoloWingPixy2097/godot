@@ -28,18 +28,35 @@ register_module_types = env.CommandNoCache(
 )
 
 
+#Backup & clear paths for this section (building & adding the modules to main binary)
+import sys
+oldPaths = sys.path
+
 test_headers = []
 # libmodule_<name>.a for each active module.
 for name, path in env.module_list.items():
     env.modules_sources = []
 
+    #Clear previous module paths and add this module's path so we can import its config file
+    sys.path.clear()
+    sys.path.insert(0, path)
+    import config
+
+    #Check if the config dictates building this module as shared lib
+    moduleAsSharedLib = False
+    if 'buildAsSharedLib' in dir(config):
+        moduleAsSharedLib = config.buildAsSharedLib(env, env["platform"])
+        print("Module '", name, "' is flagged as shared library, skipping integration in Godot executable.")    
+
     # Name for built-in modules, (absolute) path for custom ones.
     base_path = path if os.path.isabs(path) else name
     SConscript(base_path + "/SCsub")
 
-    if env.modules_sources:
-        lib = env_modules.add_library("module_%s" % name, env.modules_sources)
-        env.Prepend(LIBS=[lib])
+    #If not as a shared lib, build it as per Godot 
+    if not moduleAsSharedLib:
+        if env.modules_sources:
+            lib = env_modules.add_library("module_%s" % name, env.modules_sources)
+            env.Prepend(LIBS=[lib])
 
     if env["tests"]:
         # Lookup potential headers in `tests` subfolder.
@@ -49,6 +66,11 @@ for name, path in env.module_list.items():
         if module_tests != []:
             test_headers += module_tests
 
+    #Un-import the module's config now that we're done with it
+    sys.modules.pop("config")
+
+#Restore original paths
+sys.path = oldPaths
 
 # Generate header to be included in `tests/test_main.cpp` to run module-specific tests.
 if env["tests"]:
