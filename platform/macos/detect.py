@@ -34,6 +34,7 @@ def get_opts():
         ("vulkan_sdk_path", "Path to the Vulkan SDK", ""),
         EnumVariable("macports_clang", "Build using Clang from MacPorts", "no", ["no", "5.0", "devel"], ignorecase=2),
         BoolVariable("use_ubsan", "Use LLVM/GCC compiler undefined behavior sanitizer (UBSAN)", False),
+        BoolVariable("use_llvm", "Use the LLVM compiler", True),
         BoolVariable("use_asan", "Use LLVM/GCC compiler address sanitizer (ASAN)", False),
         BoolVariable("use_tsan", "Use LLVM/GCC compiler thread sanitizer (TSAN)", False),
         BoolVariable("use_coverage", "Use instrumentation codes in the binary (e.g. for code coverage)", False),
@@ -72,6 +73,8 @@ def configure(env: "SConsEnvironment"):
     validate_arch(env["arch"], get_name(), supported_arches)
 
     ## Compiler configuration
+    if env["use_llvm"]:
+        env.extra_suffix = ".llvm" + env.extra_suffix
 
     # Save this in environment for use by other modules
     if "OSXCROSS_ROOT" in os.environ:
@@ -84,10 +87,10 @@ def configure(env: "SConsEnvironment"):
         env.Append(CCFLAGS=["-arch", "arm64", "-mmacosx-version-min=11.0"])
         env.Append(LINKFLAGS=["-arch", "arm64", "-mmacosx-version-min=11.0"])
     elif env["arch"] == "x86_64":
-        print("Building for macOS 10.13+.")
-        env.Append(ASFLAGS=["-arch", "x86_64", "-mmacosx-version-min=10.13"])
-        env.Append(CCFLAGS=["-arch", "x86_64", "-mmacosx-version-min=10.13"])
-        env.Append(LINKFLAGS=["-arch", "x86_64", "-mmacosx-version-min=10.13"])
+        print("Building for macOS 10.15+.")
+        env.Append(ASFLAGS=["-arch", "x86_64", "-mmacosx-version-min=10.15"])
+        env.Append(CCFLAGS=["-arch", "x86_64", "-mmacosx-version-min=10.15"])
+        env.Append(LINKFLAGS=["-arch", "x86_64", "-mmacosx-version-min=10.15"])
 
     env.Append(CCFLAGS=["-ffp-contract=off"])
     env.Append(CCFLAGS=["-fobjc-arc"])
