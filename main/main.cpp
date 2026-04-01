@@ -4754,6 +4754,10 @@ int Main::start() {
 	OS::get_singleton()->benchmark_end_measure("Startup", "Main::Start");
 	OS::get_singleton()->benchmark_dump();
 
+	initialize_modules(ModuleInitializationLevel::PreSetup);
+	initialize_modules(ModuleInitializationLevel::Setup);
+	initialize_modules(ModuleInitializationLevel::PostSetup);
+
 	return EXIT_SUCCESS;
 }
 
@@ -4827,6 +4831,10 @@ bool Main::iteration() {
 	}
 
 	bool exit = false;
+
+	//Let modules know when we start a new iteration
+	//Done this way so we don't have to inject nodes into the scene tree and fiddle with node process priority
+	initialize_modules(ModuleInitializationLevel::UpdateBegin);
 
 	// process all our active interfaces
 #ifndef XR_DISABLED
@@ -4940,6 +4948,9 @@ bool Main::iteration() {
 	GodotProfileZoneGrouped(_profile_zone, "process 3D navigation");
 	NavigationServer3D::get_singleton()->process(process_step * time_scale);
 #endif // NAVIGATION_3D_DISABLED
+
+	//Inform modules when update ends
+	initialize_modules(ModuleInitializationLevel::UpdateEnd);
 
 	GodotProfileZoneGrouped(_profile_zone, "RenderingServer::sync");
 	RenderingServer::get_singleton()->sync(); //sync if still drawing from previous frames.
@@ -5118,6 +5129,9 @@ void Main::cleanup(bool p_force) {
 
 	// Flush before uninitializing the scene, but delete the MessageQueue as late as possible.
 	message_queue->flush();
+
+
+	uninitialize_modules(ModuleInitializationLevel::Setup);
 
 	OS::get_singleton()->delete_main_loop();
 
