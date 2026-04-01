@@ -91,6 +91,7 @@ public:
 	Size2 get_viewport_size() const;
 
 	RID get_viewport() const;
+	Viewport* get_viewportPtr() const;
 
 	void set_custom_viewport(Node *p_viewport);
 	Node *get_custom_viewport() const;

@@ -221,6 +221,10 @@ Size2 CanvasLayer::get_viewport_size() const {
 RID CanvasLayer::get_viewport() const {
 	return viewport;
 }
+	Viewport* CanvasLayer::get_viewportPtr() const
+	{
+		return vp;
+	}
 
 void CanvasLayer::set_custom_viewport(Node *p_viewport) {
 	ERR_FAIL_NULL_MSG(p_viewport, "Cannot set viewport to nullptr.");
