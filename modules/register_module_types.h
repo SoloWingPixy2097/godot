@@ -37,10 +37,12 @@ enum ModuleInitializationLevel {
 	MODULE_INITIALIZATION_LEVEL_SERVERS = GDEXTENSION_INITIALIZATION_SERVERS,
 	MODULE_INITIALIZATION_LEVEL_SCENE = GDEXTENSION_INITIALIZATION_SCENE,
 	MODULE_INITIALIZATION_LEVEL_EDITOR = GDEXTENSION_INITIALIZATION_EDITOR,
-	PreSetup
-	, Setup
-	, PostSetup
+	
+	//Once SceneTree has been setup and engine is ready, can be called multiple times
+	Game
+	//At the very start of every rendered frame
 	, UpdateBegin
+	//At the very end of every rendered frame
 	, UpdateEnd
 };
 

@@ -4759,9 +4759,7 @@ int Main::start() {
 	OS::get_singleton()->benchmark_end_measure("Startup", "Main::Start");
 	OS::get_singleton()->benchmark_dump();
 
-	initialize_modules(ModuleInitializationLevel::PreSetup);
-	initialize_modules(ModuleInitializationLevel::Setup);
-	initialize_modules(ModuleInitializationLevel::PostSetup);
+	initialize_modules(ModuleInitializationLevel::Game);
 
 	return EXIT_SUCCESS;
 }
@@ -5136,7 +5134,7 @@ void Main::cleanup(bool p_force) {
 	message_queue->flush();
 
 
-	uninitialize_modules(ModuleInitializationLevel::Setup);
+	uninitialize_modules(ModuleInitializationLevel::Game);
 
 	OS::get_singleton()->delete_main_loop();
 

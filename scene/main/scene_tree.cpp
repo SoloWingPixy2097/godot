@@ -38,6 +38,7 @@
 #include "core/object/worker_thread_pool.h"
 #include "core/os/os.h"
 #include "core/profiling/profiling.h"
+#include "modules/register_module_types.h"
 #include "node.h"
 #include "scene/animation/tween.h"
 #include "scene/debugger/scene_debugger.h"
@@ -842,6 +843,11 @@ void SceneTree::process_tweens(double p_delta, bool p_physics) {
 }
 
 void SceneTree::finalize() {
+
+	//Inform modules game is being shut down
+	//-> Allows them to cleanup any scenetree related things before SceneTree starts deleting stuff
+	uninitialize_modules(ModuleInitializationLevel::Game);
+
 	_flush_delete_queue();
 
 	_flush_ugc();
