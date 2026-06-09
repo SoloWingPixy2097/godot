@@ -631,6 +631,8 @@ public:
 
 	virtual void positional_soft_shadow_filter_set_quality(ShadowQuality p_quality) = 0;
 	virtual void directional_soft_shadow_filter_set_quality(ShadowQuality p_quality) = 0;
+	virtual ShadowQuality positional_soft_shadow_filter_get_quality() const = 0;
+	virtual ShadowQuality directional_soft_shadow_filter_get_quality() const = 0;
 
 	enum LightProjectorFilter {
 		LIGHT_PROJECTOR_FILTER_NEAREST,

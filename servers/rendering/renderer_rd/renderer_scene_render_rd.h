@@ -265,6 +265,8 @@ public:
 
 	virtual void positional_soft_shadow_filter_set_quality(RS::ShadowQuality p_quality) override;
 	virtual void directional_soft_shadow_filter_set_quality(RS::ShadowQuality p_quality) override;
+	virtual RS::ShadowQuality positional_soft_shadow_filter_get_quality() const override { return shadows_quality_get(); }
+	virtual RS::ShadowQuality directional_soft_shadow_filter_get_quality() const override { return directional_shadow_quality_get(); }
 
 	virtual void decals_set_filter(RS::DecalFilter p_filter) override;
 	virtual void light_projectors_set_filter(RS::LightProjectorFilter p_filter) override;

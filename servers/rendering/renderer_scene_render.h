@@ -262,6 +262,8 @@ public:
 
 	virtual void positional_soft_shadow_filter_set_quality(RS::ShadowQuality p_quality) = 0;
 	virtual void directional_soft_shadow_filter_set_quality(RS::ShadowQuality p_quality) = 0;
+	virtual RS::ShadowQuality positional_soft_shadow_filter_get_quality() const = 0;
+	virtual RS::ShadowQuality directional_soft_shadow_filter_get_quality() const = 0;
 
 	virtual RID fog_volume_instance_create(RID p_fog_volume) = 0;
 	virtual void fog_volume_instance_set_transform(RID p_fog_volume_instance, const Transform3D &p_transform) = 0;

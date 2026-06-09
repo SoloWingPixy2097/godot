@@ -328,6 +328,8 @@ public:
 
 	virtual void positional_soft_shadow_filter_set_quality(RS::ShadowQuality p_quality) = 0;
 	virtual void directional_soft_shadow_filter_set_quality(RS::ShadowQuality p_quality) = 0;
+	virtual RS::ShadowQuality positional_soft_shadow_filter_get_quality() const = 0;
+	virtual RS::ShadowQuality directional_soft_shadow_filter_get_quality() const = 0;
 
 	/* Render Buffers */
 

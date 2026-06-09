@@ -907,6 +907,8 @@ public:
 
 	void positional_soft_shadow_filter_set_quality(RS::ShadowQuality p_quality) override;
 	void directional_soft_shadow_filter_set_quality(RS::ShadowQuality p_quality) override;
+	virtual RS::ShadowQuality positional_soft_shadow_filter_get_quality() const override { return scene_state.positional_shadow_quality; }
+	virtual RS::ShadowQuality directional_soft_shadow_filter_get_quality() const override { return scene_state.directional_shadow_quality; }
 
 	RID fog_volume_instance_create(RID p_fog_volume) override;
 	void fog_volume_instance_set_transform(RID p_fog_volume_instance, const Transform3D &p_transform) override;
