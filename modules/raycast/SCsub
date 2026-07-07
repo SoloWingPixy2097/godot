@@ -4,6 +4,9 @@ from misc.utility.scons_hints import *
 import re
 import subprocess
 
+import SCons.Util
+from SCons.Util import is_String, is_Sequence
+
 Import("env")
 Import("env_modules")
 
@@ -86,8 +89,21 @@ if env["builtin_embree"]:
     else:
         env_isa_test = env_raycast.Clone()
         env_isa_test.Append(CCFLAGS=["-E", "-dM", "-x c++"])
-        command = env_isa_test.subst(env_isa_test["CXXCOM"], source=File("-"), target=File("-"))
-        defines = subprocess.check_output(command, input="", encoding="utf-8", shell=True)
+
+        #Substitute all variables to get the full compile command
+        commandItems = env_isa_test.subst_list(env_isa_test["CXXCOM"], source=File("-"), target=File("-"))
+
+        #Prepare for shell invocation by escaping items that require it (eg include paths)
+        newCommand = ""
+        for commandItem in commandItems[0]:
+            if commandItem.startswith("-I"):
+                newCommand += commandItem.escape(env_isa_test["ESCAPE"])
+            else:
+                newCommand +=commandItem.data
+            newCommand +=" "
+        
+        #invoke command in shell and check output for vectorisation 
+        defines = subprocess.check_output(newCommand, input="", encoding="utf-8", shell=True)
 
         def is_defined(name: str) -> bool:
             m = re.search(rf"^#define\s{name}(?:\s|\Z)", defines, flags=re.MULTILINE)
