@@ -275,73 +275,73 @@
 	</Type>
 
 	<Type Name="Vector2">
-		<DisplayString>({x,g}, {y,g})</DisplayString>
+		<DisplayString>({coord[0],g}, {coord[1],g})</DisplayString>
 		<Expand>
-			<Item Name="[x]">x</Item>
-			<Item Name="[y]">y</Item>
+			<Item Name="[x]">coord[0]</Item>
+			<Item Name="[y]">coord[1]</Item>
 		</Expand>
 	</Type>
 	<Type Name="Vector2i">
-		<DisplayString>({x}, {y})</DisplayString>
+		<DisplayString>({coord[0]}, {coord[1]})</DisplayString>
 		<Expand>
-			<Item Name="[x]">x</Item>
-			<Item Name="[y]">y</Item>
+			<Item Name="[x]">coord[0]</Item>
+			<Item Name="[y]">coord[1]</Item>
 		</Expand>
 	</Type>
 
 	<Type Name="Vector3">
-		<DisplayString>({x,g}, {y,g}, {z,g})</DisplayString>
+		<DisplayString>({coord[0],g}, {coord[1],g}, {coord[2],g})</DisplayString>
 		<Expand>
-			<Item Name="[x]">x</Item>
-			<Item Name="[y]">y</Item>
-			<Item Name="[z]">z</Item>
+			<Item Name="[x]">coord[0]</Item>
+			<Item Name="[y]">coord[1]</Item>
+			<Item Name="[z]">coord[2]</Item>
 		</Expand>
 	</Type>
 	<Type Name="Vector3i">
-		<DisplayString>({x}, {y}, {z})</DisplayString>
+		<DisplayString>({coord[0]}, {coord[1]}, {coord[2]})</DisplayString>
 		<Expand>
-			<Item Name="[x]">x</Item>
-			<Item Name="[y]">y</Item>
-			<Item Name="[z]">z</Item>
+			<Item Name="[x]">coord[0]</Item>
+			<Item Name="[y]">coord[1]</Item>
+			<Item Name="[z]">coord[2]</Item>
 		</Expand>
 	</Type>
 
 	<Type Name="Vector4">
-		<DisplayString>({x,g}, {y,g}, {z,g}, {w,g})</DisplayString>
+		<DisplayString>({coord[0],g}, {coord[1],g}, {coord[2],g}, {coord[3],g})</DisplayString>
 		<Expand>
-			<Item Name="[x]">x</Item>
-			<Item Name="[y]">y</Item>
-			<Item Name="[z]">z</Item>
-			<Item Name="[w]">w</Item>
+			<Item Name="[x]">coord[0]</Item>
+			<Item Name="[y]">coord[1]</Item>
+			<Item Name="[z]">coord[2]</Item>
+			<Item Name="[w]">coord[3]</Item>
 		</Expand>
 	</Type>
 	<Type Name="Vector4i">
-		<DisplayString>({x}, {y}, {z}, {w})</DisplayString>
+		<DisplayString>({coord[0]}, {coord[1]}, {coord[2]}, {coord[3]})</DisplayString>
 		<Expand>
-			<Item Name="[x]">x</Item>
-			<Item Name="[y]">y</Item>
-			<Item Name="[z]">z</Item>
-			<Item Name="[w]">w</Item>
+			<Item Name="[x]">coord[0]</Item>
+			<Item Name="[y]">coord[1]</Item>
+			<Item Name="[z]">coord[2]</Item>
+			<Item Name="[w]">coord[3]</Item>
 		</Expand>
 	</Type>
 
 	<Type Name="Quaternion">
-		<DisplayString>({x,g}, {y,g}, {z,g}, {w,g})</DisplayString>
+		<DisplayString>({components[0],g}, {components[1],g}, {components[2],g}, {components[3],g})</DisplayString>
 		<Expand>
-			<Item Name="[x]">x</Item>
-			<Item Name="[y]">y</Item>
-			<Item Name="[z]">z</Item>
-			<Item Name="[w]">w</Item>
+			<Item Name="[x]">components[0]</Item>
+			<Item Name="[y]">components[1]</Item>
+			<Item Name="[z]">components[2]</Item>
+			<Item Name="[w]">components[3]</Item>
 		</Expand>
 	</Type>
 
 	<Type Name="Color">
 		<DisplayString>({r,g}, {g,g}, {b,g}, {a,g})</DisplayString>
 		<Expand>
-			<Item Name="[red]">r</Item>
-			<Item Name="[green]">g</Item>
-			<Item Name="[blue]">b</Item>
-			<Item Name="[alpha]">a</Item>
+			<Item Name="[red]">components[0]</Item>
+			<Item Name="[green]">components[1]</Item>
+			<Item Name="[blue]">components[2]</Item>
+			<Item Name="[alpha]">components[3]</Item>
 		</Expand>
 	</Type>
 
