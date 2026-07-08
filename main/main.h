@@ -57,6 +57,7 @@ class Main {
 	static uint32_t frame;
 	static bool force_redraw_requested;
 	static int iterating;
+	static bool m_inPhysicsFrame;
 
 public:
 	static bool is_cmdline_tool();
@@ -84,6 +85,7 @@ public:
 	static void force_redraw();
 
 	static bool is_iterating();
+	static bool isInPhysicsFrame();
 
 	static void cleanup(bool p_force = false);
 };

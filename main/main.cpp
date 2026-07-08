@@ -4780,9 +4780,14 @@ uint32_t Main::hide_print_fps_attempts = 3;
 uint32_t Main::frame = 0;
 bool Main::force_redraw_requested = false;
 int Main::iterating = 0;
+bool Main::m_inPhysicsFrame = false;
 
 bool Main::is_iterating() {
 	return iterating > 0;
+}
+bool Main::isInPhysicsFrame() 
+{
+	return m_inPhysicsFrame;
 }
 
 // For performance metrics.
@@ -4846,6 +4851,7 @@ bool Main::iteration() {
 #endif // XR_DISABLED
 
 	GodotProfileZoneGrouped(_profile_zone, "physics");
+	m_inPhysicsFrame = true;
 	for (int iters = 0; iters < advance.physics_steps; ++iters) {
 		GodotProfileZone("Physics Step");
 		GodotProfileZoneGroupedFirst(_physics_zone, "setup");
@@ -4930,6 +4936,7 @@ bool Main::iteration() {
 
 		Engine::get_singleton()->_in_physics = false;
 	}
+	m_inPhysicsFrame = false;
 
 	if (Input::get_singleton()->is_agile_input_event_flushing()) {
 		Input::get_singleton()->flush_buffered_events();
