@@ -203,8 +203,8 @@ struct [[nodiscard]] Color {
 				b < 0.0031308f ? 12.92f * b : (1.0 + 0.055) * Math::pow(b, 1.0f / 2.4f) - 0.055, a);
 	}
 
-	static Color hex(uint32_t p_hex);
-	static Color hex64(uint64_t p_hex);
+	static constexpr Color hex(uint32_t p_hex);
+	static constexpr Color hex64(uint64_t p_hex);
 	static Color html(const String &p_rgba);
 	static bool html_is_valid(const String &p_color);
 	static Color named(const String &p_name);
@@ -214,11 +214,11 @@ struct [[nodiscard]] Color {
 	static String get_named_color_name(int p_idx);
 	static Color get_named_color(int p_idx);
 	static Color from_string(const String &p_string, const Color &p_default);
-	static Color from_hsv(float p_h, float p_s, float p_v, float p_alpha = 1.0f);
-	static Color from_ok_hsl(float p_h, float p_s, float p_l, float p_alpha = 1.0f);
-	static Color from_ok_hsv(float p_h, float p_s, float p_l, float p_alpha = 1.0f);
-	static Color from_rgbe9995(uint32_t p_rgbe);
-	static Color from_rgba8(int64_t p_r8, int64_t p_g8, int64_t p_b8, int64_t p_a8 = 255);
+	static constexpr Color from_hsv(float p_h, float p_s, float p_v, float p_alpha = 1.0f);
+	static constexpr Color from_ok_hsl(float p_h, float p_s, float p_l, float p_alpha = 1.0f);
+	static constexpr Color from_ok_hsv(float p_h, float p_s, float p_l, float p_alpha = 1.0f);
+	static constexpr Color from_rgbe9995(uint32_t p_rgbe);
+	static constexpr Color from_rgba8(int64_t p_r8, int64_t p_g8, int64_t p_b8, int64_t p_a8 = 255);
 
 	constexpr bool operator<(const Color &p_color) const; // Used in set keys.
 	explicit operator String() const;
@@ -402,4 +402,64 @@ constexpr bool Color::operator<(const Color &p_color) const {
 
 constexpr Color operator*(float p_scalar, const Color &p_color) {
 	return p_color * p_scalar;
+}
+
+constexpr Color Color::hex(uint32_t p_hex) {
+	float a = (p_hex & 0xFF) / 255.0f;
+	p_hex >>= 8;
+	float b = (p_hex & 0xFF) / 255.0f;
+	p_hex >>= 8;
+	float g = (p_hex & 0xFF) / 255.0f;
+	p_hex >>= 8;
+	float r = (p_hex & 0xFF) / 255.0f;
+
+	return Color(r, g, b, a);
+}
+
+constexpr Color Color::hex64(uint64_t p_hex) {
+	float a = (p_hex & 0xFFFF) / 65535.0f;
+	p_hex >>= 16;
+	float b = (p_hex & 0xFFFF) / 65535.0f;
+	p_hex >>= 16;
+	float g = (p_hex & 0xFFFF) / 65535.0f;
+	p_hex >>= 16;
+	float r = (p_hex & 0xFFFF) / 65535.0f;
+
+	return Color(r, g, b, a);
+}
+
+constexpr Color Color::from_hsv(float p_h, float p_s, float p_v, float p_alpha) {
+	Color c;
+	c.set_hsv(p_h, p_s, p_v, p_alpha);
+	return c;
+}
+
+constexpr Color Color::from_rgbe9995(uint32_t p_rgbe) {
+	float r = p_rgbe & 0x1ff;
+	float g = (p_rgbe >> 9) & 0x1ff;
+	float b = (p_rgbe >> 18) & 0x1ff;
+	float e = (p_rgbe >> 27);
+	float m = Math::pow(2.0f, e - 15.0f - 9.0f);
+
+	float rd = r * m;
+	float gd = g * m;
+	float bd = b * m;
+
+	return Color(rd, gd, bd, 1.0f);
+}
+
+constexpr Color Color::from_rgba8(int64_t p_r8, int64_t p_g8, int64_t p_b8, int64_t p_a8) {
+	return Color(p_r8 / 255.0f, p_g8 / 255.0f, p_b8 / 255.0f, p_a8 / 255.0f);
+}
+
+constexpr Color Color::from_ok_hsl(float p_h, float p_s, float p_l, float p_alpha) {
+	Color c;
+	c.set_ok_hsl(p_h, p_s, p_l, p_alpha);
+	return c;
+}
+
+constexpr Color Color::from_ok_hsv(float p_h, float p_s, float p_l, float p_alpha) {
+	Color c;
+	c.set_ok_hsv(p_h, p_s, p_l, p_alpha);
+	return c;
 }

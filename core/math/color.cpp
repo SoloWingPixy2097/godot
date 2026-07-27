@@ -281,30 +281,6 @@ void Color::invert() {
 	b = 1.0f - b;
 }
 
-Color Color::hex(uint32_t p_hex) {
-	float a = (p_hex & 0xFF) / 255.0f;
-	p_hex >>= 8;
-	float b = (p_hex & 0xFF) / 255.0f;
-	p_hex >>= 8;
-	float g = (p_hex & 0xFF) / 255.0f;
-	p_hex >>= 8;
-	float r = (p_hex & 0xFF) / 255.0f;
-
-	return Color(r, g, b, a);
-}
-
-Color Color::hex64(uint64_t p_hex) {
-	float a = (p_hex & 0xFFFF) / 65535.0f;
-	p_hex >>= 16;
-	float b = (p_hex & 0xFFFF) / 65535.0f;
-	p_hex >>= 16;
-	float g = (p_hex & 0xFFFF) / 65535.0f;
-	p_hex >>= 16;
-	float r = (p_hex & 0xFFFF) / 65535.0f;
-
-	return Color(r, g, b, a);
-}
-
 static int _parse_col4(const String &p_str, int p_ofs) {
 	char character = p_str[p_ofs];
 
@@ -455,44 +431,8 @@ Color Color::from_string(const String &p_string, const Color &p_default) {
 	}
 }
 
-Color Color::from_hsv(float p_h, float p_s, float p_v, float p_alpha) {
-	Color c;
-	c.set_hsv(p_h, p_s, p_v, p_alpha);
-	return c;
-}
-
-Color Color::from_rgbe9995(uint32_t p_rgbe) {
-	float r = p_rgbe & 0x1ff;
-	float g = (p_rgbe >> 9) & 0x1ff;
-	float b = (p_rgbe >> 18) & 0x1ff;
-	float e = (p_rgbe >> 27);
-	float m = Math::pow(2.0f, e - 15.0f - 9.0f);
-
-	float rd = r * m;
-	float gd = g * m;
-	float bd = b * m;
-
-	return Color(rd, gd, bd, 1.0f);
-}
-
-Color Color::from_rgba8(int64_t p_r8, int64_t p_g8, int64_t p_b8, int64_t p_a8) {
-	return Color(p_r8 / 255.0f, p_g8 / 255.0f, p_b8 / 255.0f, p_a8 / 255.0f);
-}
-
 Color::operator String() const {
 	return "(" + String::num(r, 4) + ", " + String::num(g, 4) + ", " + String::num(b, 4) + ", " + String::num(a, 4) + ")";
-}
-
-Color Color::from_ok_hsl(float p_h, float p_s, float p_l, float p_alpha) {
-	Color c;
-	c.set_ok_hsl(p_h, p_s, p_l, p_alpha);
-	return c;
-}
-
-Color Color::from_ok_hsv(float p_h, float p_s, float p_l, float p_alpha) {
-	Color c;
-	c.set_ok_hsv(p_h, p_s, p_l, p_alpha);
-	return c;
 }
 
 float Color::get_ok_hsl_h() const {
